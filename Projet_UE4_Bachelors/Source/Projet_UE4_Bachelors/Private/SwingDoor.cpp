@@ -62,6 +62,7 @@ void ASwingDoor::ControlDoor()
 
 void ASwingDoor::ToggleDoor()
 {
+	UE_LOG(LogTemp, Warning, TEXT("PorteToggle1"));
 	if (IsReady)
 	{
 		IsOpen = !IsOpen;
@@ -90,6 +91,7 @@ void ASwingDoor::ToggleDoor()
 			IsReady = false;
 		}
 	}
+	UE_LOG(LogTemp, Warning, TEXT("PorteToggle2"));
 }
 
 void ASwingDoor::setDoorState()
