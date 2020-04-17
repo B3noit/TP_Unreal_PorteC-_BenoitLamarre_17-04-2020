@@ -17,6 +17,8 @@ ASwingDoor::ASwingDoor()
 	IsActive = false;
 	isFullOpen = false;
 	isClosed = true;
+	isOpening = false;
+	isClosing = false;
 
 }
 
@@ -47,6 +49,10 @@ void ASwingDoor::Tick(float DeltaTime)
 			if (isClosed == true)
 			{
 				speed = 100;
+				isClosed = false;
+				isOpening = true;
+				isClosing = false;
+				isFullOpen = false;
 
 			}
 
@@ -55,6 +61,8 @@ void ASwingDoor::Tick(float DeltaTime)
 				speed = 0;
 				isFullOpen = true;
 				isClosed = false;
+				isOpening = false;
+				isClosing = false;
 			}
 
 			FVector DirectionOpen = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
@@ -68,11 +76,26 @@ void ASwingDoor::Tick(float DeltaTime)
 		float journeyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
 		float journeyTravel = (Location - GlobalStartLocation).Size();
 
+		if (isOpening == true)
+		{
+			speed = 100;
+			FVector Swap = GlobalStartLocation;
+			GlobalStartLocation = GlobalTargetLocation;
+			GlobalTargetLocation = Swap;
+			isFullOpen = false;
+			isClosing = true;
+			isOpening = false;			
+			isClosed = false;
+
+		}
 		if (isClosed == true)
 		{
 			speed = 0;
 			GlobalStartLocation = InitialStartLocation;
 			GlobalTargetLocation = InitialTargetLocation;
+			isOpening = false;
+			isFullOpen = false;
+			isClosing = false;
 
 		}
 
@@ -80,7 +103,9 @@ void ASwingDoor::Tick(float DeltaTime)
 		if (journeyTravel >= journeyLength && isFullOpen ==false)
 		{
 			speed = 0;
+			isOpening = false;
 			isFullOpen = false;
+			isClosing = false;
 			isClosed = true;
 		}
 
@@ -91,6 +116,9 @@ void ASwingDoor::Tick(float DeltaTime)
 			GlobalStartLocation = GlobalTargetLocation;
 			GlobalTargetLocation = Swap;
 			isFullOpen = false;
+			isClosing = true;
+			isOpening = false;
+			isClosed = false;
 		}
 
 		FVector DirectionClose = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();

@@ -34,7 +34,7 @@ void ATriggerBoxDoor::Tick(float DeltaTime)
 	CurrentMass = GetTotalMass();
 	if (CurrentMass) 
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, FString::Printf(TEXT("Overlapped Actor = %f"),CurrentMass));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, FString::Printf(TEXT("Total mass C++volume = %f"),CurrentMass));
 	}
 
 	if (CurrentMass >= TotalMassToTrigger)
