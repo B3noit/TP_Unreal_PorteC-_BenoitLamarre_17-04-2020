@@ -17,10 +17,10 @@ public:
 	ATriggerBoxDoor();
 
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "TriggerCondition")
 		float TotalMassToTrigger; //The Minimum Mass required to open the Swing Door associated.
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "TriggerCondition")
 		bool IsTriggered;	// Bool stating if the volume is triggered
 
 
@@ -37,13 +37,13 @@ private:
 		class UBoxComponent* TriggerVolume;
 
 	UPROPERTY(EditAnywhere)
-		TArray<class ASwingDoor*> DoorToTrigger;
+		TArray<class ASwingDoor*> DoorToTrigger;//Allow to select Doors with wich the volume can interact
 	
 	UFUNCTION()
-		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);
+		void OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor);//Not used
 
 	UFUNCTION()
-		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor);
+		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor);//Not used
 
 	UFUNCTION()
 		float GetTotalMass();

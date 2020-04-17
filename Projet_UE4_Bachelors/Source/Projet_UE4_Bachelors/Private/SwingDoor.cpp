@@ -28,10 +28,12 @@ ASwingDoor::ASwingDoor()
 void ASwingDoor::BeginPlay()
 {
 	Super::BeginPlay();
-	GlobalStartLocation = GetActorLocation();
+	//initialisation bloc
+
+	GlobalStartLocation = GetActorLocation(); 
 	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
-	InitialStartLocation = GlobalStartLocation;
-	InitialTargetLocation = GlobalTargetLocation;
+	InitialStartLocation = GlobalStartLocation;//Save the initial StartLocation in "InitialStartLocation"
+	InitialTargetLocation = GlobalTargetLocation;//Save the initial TargetLocation in "InitialTargetLocation"
 
 }
 
@@ -40,13 +42,13 @@ void ASwingDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (IsActive == true)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("La porte doit s'ouvir "));
-		FVector Location = GetActorLocation();
-			float journeyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
-			float journeyTravel = (Location - GlobalStartLocation).Size();
+	{//When active the door should open itself
+
+		FVector Location = GetActorLocation();//The "Location" variable is used to set the location of the door in the next tick
+			float journeyLength = (GlobalTargetLocation - GlobalStartLocation).Size();//Total length since the begining of the slide
+			float journeyTravel = (Location - GlobalStartLocation).Size();//Current length of the slide
 			
-			if (isClosed == true)
+			if (isClosed == true)//When the door is activated while it's completely closed
 			{
 				speed = 100;
 				isClosed = false;
@@ -56,8 +58,8 @@ void ASwingDoor::Tick(float DeltaTime)
 
 			}
 
-			if (journeyTravel >= journeyLength)
-			{
+			if (journeyTravel >= journeyLength)//When the door is fully open so the total lenght is at least equal to the current length
+			{//When fully open the door doesn't mode so the speed is set to 0
 				speed = 0;
 				isFullOpen = true;
 				isClosed = false;
@@ -70,14 +72,14 @@ void ASwingDoor::Tick(float DeltaTime)
 			SetActorLocation(Location);
 	}
 	if(IsActive == false)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("La porte doit se fermer "));
+	{//When active the door should close itself
+
 		FVector Location = GetActorLocation();
 		float journeyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
 		float journeyTravel = (Location - GlobalStartLocation).Size();
 
-		if (isOpening == true)
-		{
+		if (isOpening == true)//When the door is desactivated while it's opening itself
+		{//Swap the direction of the slide of the door
 			speed = 100;
 			FVector Swap = GlobalStartLocation;
 			GlobalStartLocation = GlobalTargetLocation;
@@ -88,9 +90,9 @@ void ASwingDoor::Tick(float DeltaTime)
 			isClosed = false;
 
 		}
-		if (isClosed == true)
-		{
-			speed = 0;
+		if (isClosed == true)//When the door is desactivated and it's already closed 
+		{//Swap the direction of the slide of the door because the only thing that can happen is the opening of the door
+			speed = 0;//When closed the door doesn't mode so the speed is set to 0
 			GlobalStartLocation = InitialStartLocation;
 			GlobalTargetLocation = InitialTargetLocation;
 			isOpening = false;
@@ -100,8 +102,8 @@ void ASwingDoor::Tick(float DeltaTime)
 		}
 
 
-		if (journeyTravel >= journeyLength && isFullOpen ==false)
-		{
+		if (journeyTravel >= journeyLength && isFullOpen ==false)//When the door is closed 
+		{//When closed, the door doesn't move so the speed is set to 0
 			speed = 0;
 			isOpening = false;
 			isFullOpen = false;
@@ -109,8 +111,8 @@ void ASwingDoor::Tick(float DeltaTime)
 			isClosed = true;
 		}
 
-		if (isFullOpen == true)
-		{
+		if (isFullOpen == true)//When the door is desactivated and it's fully open
+		{//Swap the direction of the slide of the door
 			speed = 100;
 			FVector Swap = GlobalStartLocation;
 			GlobalStartLocation = GlobalTargetLocation;
@@ -122,19 +124,37 @@ void ASwingDoor::Tick(float DeltaTime)
 		}
 
 		FVector DirectionClose = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
-		Location += speed * DeltaTime * DirectionClose;
-		SetActorLocation(Location);
+		Location += speed * DeltaTime * DirectionClose;//Set the new location according to the differnets states of the door.
+		SetActorLocation(Location);//Set the new location of the "actor" so the door for the next tick so the door moves.
 
 	}
 
 }
 
+
+/****GetTotalMass
+Description: Called when the triggerBoxDoor associated state the mass of the meshes can activate the door
+
+Input:	
+
+Output: Set the boolean IsActive to "true"
+
+Note: -
+****************/
 void ASwingDoor::SetIsActive()
 {
 	IsActive = true;
 }
 
+/****GetTotalMass
+Description: Called when the triggerBoxDoor associated state the mass of the meshes can't activate the door
 
+Input:
+
+Output: Set the boolean IsActive to "false"
+
+Note: -
+****************/
 void ASwingDoor::SetIsDesactivated()
 {
 	IsActive = false;

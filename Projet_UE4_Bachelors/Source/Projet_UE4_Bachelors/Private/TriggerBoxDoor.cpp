@@ -52,16 +52,26 @@ void ATriggerBoxDoor::Tick(float DeltaTime)
 		}
 	}
 }
-
+//Not Used
 void ATriggerBoxDoor::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
 
 }
-
+//Not Used
 void ATriggerBoxDoor::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
 }
 
+
+/****GetTotalMass
+Description: Called every tick, store all the actor in an array then add the mass of each actor which have a mmesh component
+
+Input:	All the actor overlapping the trigger volume
+
+Output: return the total mass in a float
+
+Note: -
+****************/
 float ATriggerBoxDoor::GetTotalMass()
 {
 	float TotalMass = 0.0f;

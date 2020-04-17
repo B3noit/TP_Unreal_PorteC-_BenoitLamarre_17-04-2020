@@ -24,8 +24,8 @@ public:
 
 
 
-	void SetIsActive();
-	void SetIsDesactivated();
+	void SetIsActive();// Set IsActive true
+	void SetIsDesactivated();//Set is active false
 
 
 protected:
@@ -41,28 +41,28 @@ private:
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Door;
 
-	FVector GlobalTargetLocation;
+	FVector GlobalTargetLocation;//Location of the target where the door should slide will change during the game
 
-	FVector GlobalStartLocation;
+	FVector GlobalStartLocation;//Location where the door start sliding will change during the game
 
-	FVector InitialTargetLocation;
+	FVector InitialTargetLocation;//Location of the target where the door should slide will NOT change during the game
 
-	FVector InitialStartLocation;
+	FVector InitialStartLocation;//Location where the door start sliding will NOT change during the game
 
-	UPROPERTY(EditAnywhere)
-		bool IsActive;
+	UPROPERTY(EditAnywhere, Category = "DoorState")
+		bool IsActive; //state if the triggerBoxDoor is currently interracting with the Door
 
-	UPROPERTY(EditAnywhere)
-		bool isFullOpen;
+	UPROPERTY(EditAnywhere, Category = "DoorState")
+		bool isFullOpen;//state if the door is fully open
 
-	UPROPERTY(EditAnywhere)
-		bool isClosed;
+	UPROPERTY(EditAnywhere, Category = "DoorState")
+		bool isClosed;//state if the door is completly closed
 
-	UPROPERTY(EditAnywhere)
-		bool isOpening;
+	UPROPERTY(EditAnywhere, Category = "DoorState")
+		bool isOpening;//state if the door is opening
 
-	UPROPERTY(EditAnywhere)
-		bool isClosing;
+	UPROPERTY(EditAnywhere, Category = "DoorState")
+		bool isClosing;//State if the door is closing
 			
 
 
