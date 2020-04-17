@@ -16,6 +16,16 @@ public:
 	// Sets default values for this actor's properties
 	ASwingDoor();
 
+	UPROPERTY(EditAnywhere, Meta = (MakeEditWidget = true))
+		FVector TargetLocation;
+
+	UPROPERTY(EditAnywhere)
+		float speed = 20;
+
+	void ActiveTrigger();
+	void NonActiveTrigger();
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -24,33 +34,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* DoorFrame;
 
+private:
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Door;
 
-	UPROPERTY(EditAnywhere)
-		UCurveFloat* OpenDoorCurve;
+	FVector GlobalTargetLocation;
 
-	UFUNCTION()
-		void ControlDoor();
+	FVector GlobalStartLocation;
 
-	UFUNCTION()
-		void ToggleDoor();
-
-	UFUNCTION()
-		void setDoorState();
-
-
-	bool IsOpen;
-	bool IsReady;
-	float RotateValue;
-	float CurveFloatValue;
-	float TimelineValue;
-	FRotator DoorRotation;
-	FTimeline MyTimeline;
-	
+			
 
 
 };

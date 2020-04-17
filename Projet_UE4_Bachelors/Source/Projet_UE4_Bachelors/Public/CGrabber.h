@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
-#include "Blueprint/UserWidget.h"
 #include "SwingDoor.h"
 #include "CGrabber.generated.h"
 
@@ -18,14 +17,6 @@ class PROJET_UE4_BACHELORS_API UCGrabber : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UCGrabber();
-
-	UPROPERTY(EditAnywhere)
-		class ASwingDoor* CurrentDoor;
-
-	UPROPERTY(EditAnywhere)
-		class UUserWidget* EToUse;
-	
-	void OpenDoor();
 
 
 protected:

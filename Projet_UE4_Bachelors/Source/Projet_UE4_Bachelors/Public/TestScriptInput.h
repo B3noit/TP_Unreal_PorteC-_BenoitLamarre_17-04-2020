@@ -18,14 +18,6 @@ public:
 	// Sets default values for this component's properties
 	UTestScriptInput();
 
-	void SetInputComponent();
-
-	UPROPERTY(EditAnywhere)
-		class ASwingDoor* CurrentDoor;
-
-	UPROPERTY(EditAnywhere)
-		class UUserWidget* EToUse;
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -35,14 +27,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void Printlol();
-
-	void OpenDoor();
-
 
 private:
-	UInputComponent* InputComponent;
 
-	UPROPERTY(EditAnyWhere)
-		float fltReach;
 };

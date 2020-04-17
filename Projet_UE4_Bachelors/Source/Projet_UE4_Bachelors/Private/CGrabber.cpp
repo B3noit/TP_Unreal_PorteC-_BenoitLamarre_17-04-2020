@@ -29,18 +29,9 @@ UCGrabber::UCGrabber()
 
 	InputComponent = NULL;
 
-	CurrentDoor = NULL;
 	// ...
 }
 
-void UCGrabber::OpenDoor()
-{
-	UE_LOG(LogTemp, Warning, TEXT("PorteToggle0"));
-	if (CurrentDoor)
-	{
-		CurrentDoor->ToggleDoor();
-	}
-}
 
 /****************************************************************************************************
 Description : Call when game start
@@ -59,15 +50,9 @@ void UCGrabber::BeginPlay()
 	
 	if (InputComponent) {
 			InputComponent->BindAction("Grab", IE_Pressed, this, &UCGrabber::Grab);
-			InputComponent->BindAction("Grab", IE_Released, this, &UCGrabber::Release);
-
-			InputComponent->BindAction("Action", IE_Released, this, &UCGrabber::OpenDoor);		
+			InputComponent->BindAction("Grab", IE_Released, this, &UCGrabber::Release);	
 	}
 
-	if (EToUse)
-	{
-		EToUse->AddToViewport();
-	}
 	// ...
 	
 }
@@ -84,42 +69,6 @@ Note :Delta time is the time between two frames
 void UCGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	FHitResult Hit ;
-
-	FVector PlayerViewPointVector;
-	FRotator PlayerViewPointRotator;
-
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointVector, PlayerViewPointRotator);
-
-
-	FVector LineEnd = PlayerViewPointVector + PlayerViewPointRotator.Vector() * fltReach;
-
-	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
-
-	DrawDebugLine(GetWorld(), PlayerViewPointVector, LineEnd, FColor::Green, false, 1, 0, 1);
-
-	if (GetWorld()->LineTraceSingleByChannel(Hit, PlayerViewPointVector, LineEnd, ECC_Visibility, TraceParameters))
-	{
-		if (Hit.bBlockingHit)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("colision1 %s"), *Hit.GetActor()->GetName());
-			if (Hit.GetActor()->GetClass()->IsChildOf(ASwingDoor::StaticClass()))
-			{
-				//EToUse->GetWidgetFromName("EToUse")->SetVisibility(ESlateVisibility::Visible);
-				CurrentDoor = Cast<ASwingDoor>(Hit.GetActor());
-				UE_LOG(LogTemp, Warning, TEXT("colision2"));
-
-			}
-		}
-	}
-	else
-	{
-		//EToUse->GetWidgetFromName("EToUse")->SetVisibility(ESlateVisibility::Hidden);
-		CurrentDoor = NULL;
-		UE_LOG(LogTemp, Warning, TEXT("Pas de colision"));
-	}
-
-
 	
 	// ...
 	//Update ref PhysicsHandle component
