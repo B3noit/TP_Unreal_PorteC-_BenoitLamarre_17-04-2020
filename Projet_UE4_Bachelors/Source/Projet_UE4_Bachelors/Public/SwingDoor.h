@@ -20,10 +20,12 @@ public:
 		FVector TargetLocation;
 
 	UPROPERTY(EditAnywhere)
-		float speed = 20;
+		float speed = 120;
 
-	void ActiveTrigger();
-	void NonActiveTrigger();
+
+
+	void SetIsActive();
+	void SetIsDesactivated();
 
 
 protected:
@@ -43,6 +45,24 @@ private:
 
 	FVector GlobalStartLocation;
 
+	FVector InitialTargetLocation;
+
+	FVector InitialStartLocation;
+
+	UPROPERTY(EditAnywhere)
+		bool IsActive;
+
+	UPROPERTY(EditAnywhere)
+		bool isFullOpen;
+
+	UPROPERTY(EditAnywhere)
+		bool isClosed;
+
+	UPROPERTY(EditAnywhere)
+		bool isOpening;
+
+	UPROPERTY(EditAnywhere)
+		bool isClosing;
 			
 
 
